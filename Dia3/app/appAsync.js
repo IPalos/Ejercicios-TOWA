@@ -1,7 +1,19 @@
+//=========================================================
+//ESTE ARCHIVO SE TIENE QUE BROWSERIFICAR PARA QUE FUNCIONE
+//
+//browserify appAsync.js > app.dist.js
+//
+//=========================================================
 const Users = require('./users.js')
+const Posts = require('./posts.js')
+const Comments = require('./comments.js')
 
 const users = new Users();
+const posts = new Posts();
+const comments = new Comments();
 
+posts.getPostByUserID(3).then(data => console.log(data));
+comments.getCommentsByPostID(4).then(data => console.log(data));
 users.getUsers().then( data => console.log(data));
 
 /*
