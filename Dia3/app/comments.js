@@ -1,3 +1,5 @@
+// Clase Comments, utilizada en appAsync.js
+
 class Comments{
   constructor(){
     this.path= 'https://jsonplaceholder.typicode.com/comments';

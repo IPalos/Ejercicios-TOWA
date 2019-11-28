@@ -12,9 +12,11 @@ const users = new Users();
 const posts = new Posts();
 const comments = new Comments();
 
-posts.getPostByUserID(3).then(data => console.log(data));
+posts.getPostsByUserID(3).then(data => console.log(data));
 comments.getCommentsByPostID(4).then(data => console.log(data));
 users.getUsers().then( data => console.log(data));
+comments.getCommentsByUserID(5).then(data=> console.log(data));
+
 
 /*
 const userID=2;
