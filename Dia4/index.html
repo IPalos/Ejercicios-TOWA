@@ -2,11 +2,36 @@
 <htm>
 <head><title>mi primera pagina </title></head>
 <body>
-   <h1 class="title">My pagina principal </h1>
-   <p id="descripcion"> hola mi nombre es Ignacio</p>
-   <p>estoy tomando un curso html    
-     <a href="#">clic aqui </a>
-   </p>
+  <style>
+    .container{
+      height:600px;
+    }
+
+    .container .left{
+      display:inline-block;
+      width:150px;
+      background-color:yellow;
+      min-height:600px
+    }
+
+    .container .content{
+      display: inline-block;
+      width: 450px;
+      background-color: cyan;
+      min-height: 600px
+    }
+  </style>
+
+  <div class="container">
+    <div class="left">
+      <ul>
+        <li>Username</li>
+      </ul>
+    </div>
+ 
+    <div class ="content">...</div>
+  </div>
+
     <script src="app.dist.js"></script>
 </body>
 
