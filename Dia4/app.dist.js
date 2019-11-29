@@ -1,51 +1,6 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const Users = require('./users.js');
-const Posts = require('./posts.js');
-
-
-class App{
-  constructor(){
-    this.users = new Users();
-    this.users.getUsers().then(data => {
-      data.forEach(this.card,this)},this);
-    this.userInfo=[];
-  }
-
-  card(item){
-    this.userInfo.push(item);
-    var el = document.createElement('li');
-    el.setAttribute('id',item.id);
-    el.innerHTML=item.username;
-    el.addEventListener('click',this.OnClick.bind(this));
-    document.querySelector('.container .left ul')
-      .appendChild(el);
-  }
-
-  OnClick(event){
-    console.log(event.target.id)
-    console.log(event);
-    this.fillUser(event.target.id);
-  }
-
-  fillUser(id){
-    var posts = new Posts();
-    this.userInfo.forEach(u =>{
-      //console.log(u.id);
-      if(u.id == id){
-        posts.getPostsByUserID(u.id).then(data => console.log(data));
-        console.log(`El usuario que seleccionaste es ${u.username}`);
-      }
-    });
-    //console.log(this.userInfo);
- }
-
-}
-
-module.exports = App;
-
-},{"./posts.js":3,"./users.js":4}],2:[function(require,module,exports){
-const Users = require('./users.js');
-const App = require('./App.js');
+const App = require('./appClass.js');
 console.log("Welcome");
 
 const users= new Users();
@@ -72,7 +27,75 @@ const CreateCard = function(item){
 
 
 
-},{"./App.js":1,"./users.js":4}],3:[function(require,module,exports){
+},{"./appClass.js":2,"./users.js":4}],2:[function(require,module,exports){
+const Users = require('./users.js');
+const Posts = require('./posts.js');
+
+
+class App {
+  constructor() {
+    this.users = new Users();
+    this.users.getUsers().then(data => {
+      data.forEach(this.card, this)
+    }, this);
+  }
+
+  card(item) {
+    var el = document.createElement('li');
+    el.setAttribute('id', item.id);
+    el.innerHTML = item.username;
+    el.addEventListener('click', this.OnClick.bind(this));
+    document.querySelector('.container .left ul')
+      .appendChild(el);
+  }
+
+  OnClick(event) {
+    console.log(event.target.id)
+    console.log(event);
+    this.fillUser(event.target.id);
+  }
+
+  fillUser(id) {
+    let user = new Users();
+    var posts = new Posts();
+    posts.getPostsByUserID(id).then(data => {
+      document.querySelector('.container .content ul').innerHTML= "";
+      console.log(data);
+      data.forEach(this.userPosts),this;
+    });
+    user.getUserById(id).then(data => console.log(`El usuario que seleccionaste es ${data.username}`));
+  }
+
+  userPosts(item) {
+    console.log(`Titulo: ${item.title}`);
+    //Elemento de la lista
+    var el = document.createElement('li');
+    el.setAttribute('id',`post${item.id}`);
+    document
+      .querySelector('.container .content ul')
+      .appendChild(el)
+
+    //Titulo
+    var title = document.createElement('p');
+    title.innerHTML = item.title;
+    title.style.fontWeight = "900";
+    document
+    .querySelector(`#post${item.id}`)
+    .appendChild(title);
+
+    //Contenido
+    var content = document.createElement('p');
+    content.innerHTML = item.body;
+    document
+    .querySelector(`#post${item.id}`)
+    .appendChild(content);
+  }
+
+}
+
+module.exports = App;
+
+},{"./posts.js":3,"./users.js":4}],3:[function(require,module,exports){
 //Clase Posts, utilizada en appAsync.js
 
 class Posts{
@@ -93,13 +116,13 @@ class Posts{
   async getPostsByUserID(userID){
     const response = await fetch (this.path);
     let userPosts = await response.json();
-    return userPosts.filter (p=> p.userId === userID)
+    return userPosts.filter (p=> p.userId == userID)
   }
 
   async getPostsByUsername(username){
     const response = await fetch(this.path);
     let userPosts = await response.json();
-    return userPosts.filter(p=> p.username === username)
+    return userPosts.filter(p=> p.username == username)
   }
 
 }
@@ -118,8 +141,13 @@ class Users{
     const response = await fetch (this.path);
     return await response.json()
   }
+
+  async getUserById(id){
+    const response = await fetch(this.path+`/${id}`);
+    return await response.json()
+  }
 }
 
 module.exports = Users;
 
-},{}]},{},[2]);
+},{}]},{},[1]);

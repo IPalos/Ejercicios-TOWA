@@ -18,13 +18,13 @@ class Posts{
   async getPostsByUserID(userID){
     const response = await fetch (this.path);
     let userPosts = await response.json();
-    return userPosts.filter (p=> p.userId === userID)
+    return userPosts.filter (p=> p.userId == userID)
   }
 
   async getPostsByUsername(username){
     const response = await fetch(this.path);
     let userPosts = await response.json();
-    return userPosts.filter(p=> p.username === username)
+    return userPosts.filter(p=> p.username == username)
   }
 
 }

@@ -9,6 +9,11 @@ class Users{
     const response = await fetch (this.path);
     return await response.json()
   }
+
+  async getUserById(id){
+    const response = await fetch(this.path+`/${id}`);
+    return await response.json()
+  }
 }
 
 module.exports = Users;

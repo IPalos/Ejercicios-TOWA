@@ -1,5 +1,5 @@
 const Users = require('./users.js');
-const App = require('./App.js');
+const App = require('./appClass.js');
 console.log("Welcome");
 
 const users= new Users();
