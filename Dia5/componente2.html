@@ -1,0 +1,62 @@
+<!doctype HTML>
+
+<html>
+  <head>
+    <title>Mi segundo elemento </title>
+
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+  </head>
+
+  <body>
+    <clase-manzana></clase-manzana>
+    <div> <input type:"checkbox" value=false /></div>
+    <div> <input type:"checkbox" value=false /></div>
+
+
+    <dom-module id="clase-manzana">
+      <template>
+        <style>
+        </style>
+        <h1>Soy una manzana [[color]], mido [[tamano]] cm de diametro </h1>
+        <h1>Las frutas parecidas son [[frutasParecidas]]</h1>
+        <div> <input type:"text" value={{color::input}} /></div>
+        <div> <input type:"number" value={{tamano::input}} /></div>
+        <div> <input type:"text" value={{frutasParecidas::input}} /></div>
+        <div> <input type:"checkbox" value={{esVenenosa::input}} /></div>
+        <div> <input type:"text" value={{dondeSeVenden.mercado::input}} /></div>
+        <p>Este es un parrafo genérico, pero para mi supercomponente</p>
+      </template>
+
+      <script>
+        class ClaseManzana extends Polymer.Element{
+          static get is(){return "clase-manzana"}
+          static get properties(){
+            return{
+              color:{
+                type:String, value:"roja"
+              },
+              tamano:{
+                type:Number ,value:10
+              },
+              frutasParecidas:{
+                type:Array, value:['Pera','Durazno']
+              },
+              dondeSeVenden:{
+               type:Object, value:{mercado:"si",Towa:"no"}
+              },
+              esVenenosa:{
+                type:Boolean, value:false
+              }
+            }
+          }
+        }
+        customElements.define(ClaseManzana.is,ClaseManzana);
+      </script>
+
+    </dom-module>
+
+  </body>
+</html>

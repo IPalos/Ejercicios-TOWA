@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title>Mi primer</title>
+    <title>Mi primer Componente</title>
 
     <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
     <script src="webcomponentsjs/webcomponents-loader.js"></script>
@@ -12,5 +12,44 @@
   </head>
   <body>
     <h1>Welcome</h1>
+    <polymer-element></polymer-element>
+
+
+
+
+    <dom-module id="polymer-element">
+      <template>
+        <style>
+          :h2{
+            background-color:blue;
+            color:white;
+          }
+          :host h1 span{
+            color:cyan;
+          }
+        </style>
+        <h2>Mi primer elemento</h2>
+        <div> Mes: [[month]] </div>
+        <div><input type:"text" value={{month::input}} /> </div>
+      </template>
+      <script>
+        class PolymerElement extends Polymer.Element{
+          static get is (){return "polymer-element"}
+          static get properties(){
+            return{
+              month:{
+                type:String, value: "November"
+              }
+            }
+          }
+        }
+        
+        customElements.define(PolymerElement.is, PolymerElement);
+
+
+      </script>
+    </dom-module>
+
+
   </body>
 </html>
