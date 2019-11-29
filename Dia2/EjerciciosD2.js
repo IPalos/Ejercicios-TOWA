@@ -57,6 +57,7 @@ class Vehiculo  {
  
 class Taxi extends Vehiculo{
 	constructor(licence){
+		super(plate,model);
 		this._numeroLicencia=licence;
   }
   
@@ -73,6 +74,7 @@ class Taxi extends Vehiculo{
  
 class ClaseCinco extends Vehiculo{
 	constructor(seats){
+		super(plate, model);
 		this._numeroPlazas=seats;
 	}
  
