@@ -1,0 +1,76 @@
+<!doctype HTML>
+
+<html>
+  <head>
+    <title>USUARIOS</title>
+
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+  </head>
+
+  <body>
+    <polymer-user></polymer-user>
+
+    <dom-module id="polymer-user">
+      <template>
+        <style>
+          :host div{
+            background-color:moccasin;
+            margin: 5px;
+          }
+        </style>
+        <div>
+          <div>Nombre: [[user.name]]</div>
+          <div>Usuario: [[user.username]]</div>
+          <div>Correo: [[user.email]]</div>
+          <div>Dirección: [[user.address.street]]</div>
+          <div>Codigo Postal: [[user.address.zipcode]]</div>
+          <div>Telefono: [[user.phone]]</div>
+          <div>Pagina Web: [[user.website]]</div>
+          <div>Empresa: [[user.company.name]]</div>
+        </div>
+      </template>
+
+      <script>
+        class PolymerUser extends Polymer.Element{
+          static get is(){return "polymer-user"}
+          static get properties(){
+            return{
+
+              user:{
+                type:Object, value:{
+                  "id":1,
+                  "name":"NAME",
+                  "username":"USERNAME",
+                  "email":"EMAIL",
+                  "address":{
+                    "street": "STREET",
+                    "suite":"SUITE",
+                    "city":"CITY",
+                    "zipcode":"ZIPCODE",
+                    "geo":{
+                      "lat":"LAT",
+                      "lon":"LON"
+                    }
+                  },
+                  "phone":"PHONE",
+                  "website":"WEBSITE",
+                  "company":{
+                    "name":"COMPANY_NAME",
+                    "catchphrase":"COMPANY_CATCHPHRASE",
+                    "bs":"COMPANY_BS"
+                  }
+                }
+              }
+            }
+          }
+        }
+        customElements.define(PolymerUser.is,PolymerUser);
+      </script>
+
+    </dom-module>
+
+  </body>
+</html>

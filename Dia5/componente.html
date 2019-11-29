@@ -20,6 +20,12 @@
     <dom-module id="polymer-element">
       <template>
         <style>
+          .orange{
+            background-color:orange;
+          }
+          .green{
+            background-color:green;
+          }
           :h2{
             background-color:blue;
             color:white;
@@ -28,20 +34,49 @@
             color:cyan;
           }
         </style>
-        <h2>Mi primer elemento</h2>
+        <h2 class$=[[color]]>Mi primer elemento</h2>
         <div> Mes: [[month]] </div>
         <div><input type:"text" value={{month::input}} /> </div>
+        <div><input type:"text" value={{color::input}} /> </div>
       </template>
       <script>
         class PolymerElement extends Polymer.Element{
           static get is (){return "polymer-element"}
           static get properties(){
+
             return{
               month:{
                 type:String, value: "November"
-              }
+              },
+              color:String
             }
           }
+
+          constructor() {
+            super();
+            console.log('Ejecutándose el constructor')
+          }
+
+          connectedCallback() {
+            super.connectedCallback();
+            console.log('Ejecutándose connectedCallback');
+          }
+  
+         disconnectedCallback() {
+            super.disconnectedCallback();
+            console.log('Ejecutándose disconnectedCallback');
+          }
+
+          attributeChangedCallback(nombre, valorAnterior, valorNuevo) {
+            super.attributeChangedCallback();
+            console.log('Ejecutándose attributeChangedCallback', nombre, valorAnterior, valorNuevo);
+          }
+
+          ready() {
+            super.ready();
+            console.log('Ejecutándose ready');
+          }
+
         }
         
         customElements.define(PolymerElement.is, PolymerElement);
