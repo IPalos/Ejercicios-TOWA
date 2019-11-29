@@ -27,29 +27,25 @@ const OrderPrimes = array => {
 
 //CLASES DE VEHICULO
 class Vehiculo  {
-	constructor(plate, model){
-		this._matricula=plate;
-		this._modelo=model;
+	constructor(matricula, modelo){
+		this._matricula=matricula;
+		this._modelo=modelo;
 	}
  
 	set matricula(plate){
 		this._matricula =plate;
-		console.log(`La matricula de tu coche ahora es${this.matricula}`);
 	}
 	
 	get matricula(){
-		console.log(`La matricula de tu coche es${this.matricula}`);
-		return this.matricula;      
+		return this._matricula;      
 	}
 	
 	set modelo(model){
 		this._modelo = model;
-		console.log(`Acabas de comprar un ${this.modelo}`);
 	}
 	
 	get modelo(){
-		console.log(`Tu coche es un ${modelo}`);
-		return this.modelo;
+		return this._modelo;
 	}
 	
 }
@@ -57,34 +53,33 @@ class Vehiculo  {
  
 class Taxi extends Vehiculo{
 	constructor(licence){
-		super(plate,model);
+		super();
 		this._numeroLicencia=licence;
   }
   
 	set numeroLicencia(licence){
 		this._numeroLicencia=licence;
-		console.log(`Tu nueva licencia es ${this.numeroLicencia}`);
 	}
 	
 	get numeroLicencia(){
-		console.log(`Tu licencia es ${this.numeroLicencia}`);
+		return `Tu licencia es ${this._numeroLicencia}`;
 	}
  
 }
  
 class ClaseCinco extends Vehiculo{
 	constructor(seats){
-		super(plate, model);
+		super();
 		this._numeroPlazas=seats;
 	}
  
 	set numeroPlazas(seats){
 		this._numeroPlazas=seats;
-		console.log(`Ahora pusiste  ${this.numeroPlazas} asientos`);
 	}
 	
 	get numeroPlazas(){
-		console.log(`Tu vehiculo tiene ${this.numeroPlazas} asientos`);
+		return`Tu vehiculo tiene ${this._numeroPlazas} asientos`;
 	}
 	 
 }
+

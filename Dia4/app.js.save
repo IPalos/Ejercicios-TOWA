@@ -1,0 +1,65 @@
+//Create App Class
+
+const Users = require('./users.js');
+console.log("Welcome");
+
+const users= new Users();
+let a;
+
+const getData = function(data){
+    console.log("DATA: ",data)
+    a= data;
+    console.log("A: ",a);
+    a.forEach(p=> card(p));
+
+}
+
+const card = function(item){
+  var el = document.createElement('li');
+  el.setAttribute('id',item.id)
+  el.innerHTML = item.username;
+  el.addEventListener('click', onClick(event	);
+  });
+  document.querySelector('.container .left ul')
+    .appendChild(el);
+}
+
+
+const onClick(event){
+  console.log(event);
+  fillUser(0);
+}
+
+const fillUser(id){
+ console.log("Llenar Usuario");
+}
+
+const CreateCard = function(item){
+  var card = document.createElement('div');
+  body.appendChild(card);
+
+  var name = document.createElement('div');
+  name.innerHTML =`Name: <span id="${item.name}">${item.name}</span>`;
+  card.appendChild(name);
+
+  var username= document.createElement('div');
+  username.innerHTML =`Username: <span id="${item.username}">${item.username}</span>`;
+  card.appendChild(username);
+	
+  var email = document.createElement('div');
+  email.innerHTML =`Email: <span id="${item.email}">${item.email}</span>`;
+  card.appendChild(email);
+}
+
+
+users.getUsers().then(getData);
+
+
+
+var body = document.querySelector("body");
+var el = document.createElement('h1');
+
+el.innerText='Ignacio';
+body.appendChild(el);
+
+
