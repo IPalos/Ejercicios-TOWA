@@ -1,0 +1,79 @@
+/* Person Cards */
+.card {
+  transition: 0.3s;
+  background-color: rgb(95, 95, 95);
+  color: rgb(240, 240, 240);
+}
+
+.card:hover {
+  background-color: rgb(106, 94, 175);
+}
+
+.card .container {
+  padding: 2px 30px 2px ;
+}
+
+
+/*Pagina*/
+body{
+  margin: 0px;
+}
+
+#outer-container {
+	display: table;
+	width: 100%;
+  height: 100%;
+  background-color: rgb(71, 71, 71);
+  margin:  0px;
+}
+
+#sidebar {
+  background-color: rgb(71, 71, 71);
+	display: table-cell;
+	width: 15%;
+	vertical-align: top;
+}
+
+#content {
+	display: table-cell;
+	width: 85%;
+	/* vertical-align: top; */
+}
+
+/*Barra superior*/
+#topbar-ul{
+  position: fixed;
+  width: 100%;
+  top: 0;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(95, 95, 95);
+}
+
+.topbar-li{
+  float: left;
+}
+
+li a {
+  display: block;
+  color: rgb(240, 240, 240);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: rgb(106, 94, 175);
+}
+
+li a.active {
+  color: rgb(240, 240, 240);
+  background-color: #4CAF50;
+}
+
+ul{
+  margin: 0px;
+  padding-inline-start: 0px;
+}
