@@ -16,6 +16,7 @@
 
 /*Pagina*/
 body{
+  font-family: Arial, Helvetica, sans-serif;
   margin: 0px;
 }
 
@@ -31,13 +32,27 @@ body{
   background-color: rgb(71, 71, 71);
 	display: table-cell;
 	width: 15%;
-	vertical-align: top;
+  vertical-align: top;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+  
 }
 
 #content {
 	display: table-cell;
 	width: 85%;
 	/* vertical-align: top; */
+}
+
+#person-info{
+  margin: 100px 100px 0px 50px;
+
+}
+
+.content-info{
+  padding: 24px;
+  color: rgb(240, 240, 240);
+  background-color: rgb(119, 119, 119);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
 }
 
 /*Barra superior*/
@@ -50,10 +65,13 @@ body{
   padding: 0;
   overflow: hidden;
   background-color: rgb(95, 95, 95);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+
 }
 
 .topbar-li{
   float: left;
+
 }
 
 li a {
@@ -62,15 +80,18 @@ li a {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+
 }
 
 li a:hover:not(.active) {
   background-color: rgb(106, 94, 175);
+  transition: .3s;
 }
 
 li a.active {
   color: rgb(240, 240, 240);
-  background-color: #4CAF50;
+  background-color: rgb(118, 95, 248);
+  font-weight: 900;
 }
 
 ul{

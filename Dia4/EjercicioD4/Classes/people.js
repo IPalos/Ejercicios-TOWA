@@ -17,6 +17,19 @@ class People{
     return await ( await response.json() ).name;
   }
 
+  // async getPersonsMovies(personObj){
+  //   console.log(personObj.films);
+  //   let movieNames;
+
+  //   personObj.films.map(url => {
+  //     fetch(url)
+  //     .then( a => a.json()
+  //     .then( b => movieNames.push(b.title))
+  //     )  
+
+  //   });
+  // }
+
   async getPersonByID(id){
     const response = await fetch(this.path+`${id}`);
     return await ( await response.json() ).results;

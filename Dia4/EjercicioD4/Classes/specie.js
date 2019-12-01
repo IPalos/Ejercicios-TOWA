@@ -1,4 +1,4 @@
-//Clase People, para obtener las personas de Star Wars API
+//Clase Specie, para obtener las especies de Star Wars API
 
 class Specie{
   constructor(){
@@ -18,9 +18,6 @@ class Specie{
     return await (result.name);
   }
 
-  // getSpecieName(id){
-  //   return this.getSpecieByID(id).name;
-  // }
 }
 
 module.exports = Specie;

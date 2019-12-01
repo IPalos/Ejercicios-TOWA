@@ -13,67 +13,231 @@ class Info {
 
   card(item) {
     console.log(item);
-    this.users.getPersonsSpeciesName(item).then( name => {
-      console.log(name);
+    this.users.getPersonsSpeciesName(item).then( s_name => {
+      console.log(s_name);
       var el = document.createElement('div');
-      el.setAttribute('id', item.id);
       el.setAttribute('class', "card");
-      el.innerHTML =`<div  class="container">
+      el.innerHTML =`<div id class="container">
         <h4><b>${item.name}</b></h4>
-        <p>${name}</p>
+        <p>${s_name}</p>
         </div>`;
-      el.addEventListener('click', this.OnClick.bind(this));
+      //el.addEventListener('click', this.OnClick().bind(this));
+      el.addEventListener('click', (event) => ((arg) => {
+        this.OnSideClick(event,item);
+      })(item));
       document.querySelector('#sidebar ul')
         .appendChild(el);
     });
 
   }
 
-  OnClick(event) {
-    console.log(event.target.id)
-    console.log(event.target);
-    this.fillUser(event.target.id);
-    document.getElementById(event.target.id).style.backgroundColor = "rgb(161, 145, 250)";
+  OnSideClick(event,item) {
+    console.log("PASE AL ONCLICK")
+    this.showPersonalInfo(item);
+
+    document.querySelector('#info-bar').addEventListener('click', (event) => ((arg) => {
+      this.showPersonalInfo(arg);
+    })(item));
+    document.querySelector('#movie-bar').addEventListener('click', (event) => ((arg) => {
+      this.showMovies(arg);
+    })(item));
+    document.querySelector('#starship-bar').addEventListener('click', (event) => ((arg) => {
+      this.showStarships(arg);
+    })(item));
+    document.querySelector('#vehicle-bar').addEventListener('click', (event) => ((arg) => {
+      this.showVehicles(arg);
+    })(item));
   }
 
-  fillUser(id) {
-    let user = new Users();
-    var posts = new Posts();
-    posts.getPostsByUserID(id).then(data => {
-      document.querySelector('#person-info').innerHTML= "";
-      console.log(data);
-      data.forEach(this.userPosts),this;
+  showPersonalInfo(item) {
+    //editar la barra superior
+    document.querySelector('#info-bar').setAttribute('class', 'active');
+    document.querySelector('#vehicle-bar').setAttribute('class','');
+    document.querySelector('#starship-bar').setAttribute('class','');
+    document.querySelector('#movie-bar').setAttribute('class','');
+
+    //borrar la información existente
+    document.querySelector('#person-info').innerHTML='';
+
+
+    //llenar con una nueva información
+    let info= document.createElement('div');
+    info.innerHTML=`<h1> Personal Info</h1>
+      <p>Name: ${item.name}</p>
+      <p>Height: ${item.height}</p>
+      <p>Mass: ${item.mass}</p>
+      <p>Hair Color: ${item.hair_color}</p>
+      <p>Skin Color: ${item.skin_color}</p>
+      <p>Eye Color: ${item.eye_color}</p>
+      <p>Gender: ${item.gender}</p>
+      <p>Birth: ${item.birth_year}</p>`;
+    info.setAttribute('class','content-info');
+    document.querySelector('#person-info')
+      .appendChild(info);
+
+   
+  }
+
+  showMovies(item){
+    //borrar la información existente
+    document.querySelector('#person-info').innerHTML='';
+
+    //llenar con una nueva información
+    let info= document.createElement('div');
+    info.innerHTML=`<h1> Movies</h1>`;
+    info.setAttribute('class','content-info');
+    document.querySelector('#person-info')
+      .appendChild(info);
+    
+    //obtener la info de las pelis de la persona
+    item.films.map(url => {
+      fetch(url)
+      .then( a => a.json()
+      .then( b => {
+        var movieEl=document.createElement('p');
+        movieEl.innerHTML= `${b.title}`;
+        info.appendChild(movieEl);
+      })
+      )  
+
     });
-    user.getUserById(id).then(data => console.log(`El usuario que seleccionaste es ${data.username}`));
+
+    //editar la barra superior
+    document.querySelector('#info-bar').setAttribute('class', '');
+    document.querySelector('#vehicle-bar').setAttribute('class','');
+    document.querySelector('#starship-bar').setAttribute('class','');
+    document.querySelector('#movie-bar').setAttribute('class','active');
+
+  }
+  
+  showStarships(item){
+    //borrar la información existente
+    document.querySelector('#person-info').innerHTML='';
+
+    //llenar con una nueva información
+    let info= document.createElement('div');
+    info.innerHTML=`<h1> StarShips </h1>`;
+    info.setAttribute('class','content-info');
+    document.querySelector('#person-info')
+      .appendChild(info);
+    
+    //obtener la info de las naves de la persona
+    item.starships.map(url => {
+      fetch(url)
+      .then( a => a.json()
+      .then( b => {
+        let starshipName=document.createElement('p');
+        starshipName.innerHTML= `Name: ${b.name}`;
+        info.appendChild(starshipName);
+
+        let model=document.createElement('p');
+        model.innerHTML= `Model: ${b.model}`;
+        info.appendChild(model);
+
+        var cost=document.createElement('p');
+        cost.innerHTML= `Cost: ${b.cost_in_credits}`;
+        info.appendChild(cost);
+
+        var s_length=document.createElement('p');
+        s_length.innerHTML= `Length: ${b.length}`;
+        info.appendChild(s_length);
+
+        var crew=document.createElement('p');
+        crew.innerHTML= `Crew: ${b.crew}`;
+        info.appendChild(crew);
+
+        var passengers=document.createElement('p');
+        passengers.innerHTML= `Passengers: ${b.passengers}`;
+        info.appendChild(passengers);
+
+        var consumables=document.createElement('p');
+        consumables.innerHTML= `Consumables: ${b.consumables}`;
+        info.appendChild(consumables);
+
+        var s_class=document.createElement('p');
+        s_class.innerHTML= `Class: ${b.starship_class}`;
+        info.appendChild(s_class);
+
+        var separator = document.createElement('p');
+        separator.innerHTML= "=======================";
+        info.appendChild(separator);
+      })
+      )  
+
+    });
+
+    //editar la barra superior
+    document.querySelector('#info-bar').setAttribute('class', '');
+    document.querySelector('#vehicle-bar').setAttribute('class','');
+    document.querySelector('#starship-bar').setAttribute('class','active');
+    document.querySelector('#movie-bar').setAttribute('class','');
+
   }
 
-  userPosts(item) {
-    console.log(`Titulo: ${item.title}`);
-    //Elemento de la lista
-    var el = document.createElement('li');
-    el.setAttribute('id',`post${item.id}`);
-    document
-      .querySelector('.container .content ul')
-      .appendChild(el)
+  showVehicles(item){
+ //borrar la información existente
+ document.querySelector('#person-info').innerHTML='';
 
-    //Titulo
-    var title = document.createElement('p');
-    title.innerHTML = item.title;
-    title.style.fontWeight = "900";
-    document
-    .querySelector(`#post${item.id}`)
-    .appendChild(title);
+ //llenar con una nueva información
+ let info= document.createElement('div');
+ info.innerHTML=`<h1> Vehicles </h1>`;
+ info.setAttribute('class','content-info');
+ document.querySelector('#person-info')
+   .appendChild(info);
+ 
+ //obtener la info de las naves de la persona
+ item.vehicles.map(url => {
+   fetch(url)
+   .then( a => a.json()
+   .then( b => {
+     let name=document.createElement('p');
+     name.innerHTML= `Name: ${b.name}`;
+     info.appendChild(name);
 
-    //Contenido
-    var content = document.createElement('p');
-    content.innerHTML = item.body;
-    document
-    .querySelector(`#post${item.id}`)
-    .appendChild(content);
+     let model=document.createElement('p');
+     model.innerHTML= `Model: ${b.model}`;
+     info.appendChild(model);
+
+     var cost=document.createElement('p');
+     cost.innerHTML= `Cost: ${b.cost_in_credits}`;
+     info.appendChild(cost);
+
+     var s_length=document.createElement('p');
+     s_length.innerHTML= `Length: ${b.length}`;
+     info.appendChild(s_length);
+
+     var crew=document.createElement('p');
+     crew.innerHTML= `Crew: ${b.crew}`;
+     info.appendChild(crew);
+
+     var passengers=document.createElement('p');
+     passengers.innerHTML= `Passengers: ${b.passengers}`;
+     info.appendChild(passengers);
+
+     var consumables=document.createElement('p');
+     consumables.innerHTML= `Consumables: ${b.consumables}`;
+     info.appendChild(consumables);
+
+     var s_class=document.createElement('p');
+     s_class.innerHTML= `Class: ${b.vehicle_class}`;
+     info.appendChild(s_class);
+
+     var separator = document.createElement('p');
+     separator.innerHTML= "=======================";
+     info.appendChild(separator);
+   })
+   )  
+
+ });
+
+ //editar la barra superior
+ document.querySelector('#info-bar').setAttribute('class', '');
+ document.querySelector('#vehicle-bar').setAttribute('class','active');
+ document.querySelector('#starship-bar').setAttribute('class','');
+ document.querySelector('#movie-bar').setAttribute('class','');
   }
 
 }
-
 
 
 const app = new Info() ;
