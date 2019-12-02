@@ -18,7 +18,7 @@
         <style>
         </style>
 
-        <div class$="[[color]]">Month: [[month]], Season: [[season]]</div>
+        <div style$="background-color:[[color]]">Month: [[month]], Season: [[season]]</div>
         <template is="dom-repeat" items="{{months}}">
           <button on-click="cambiarMes">{{item.name}}</button>
         </template>
@@ -58,6 +58,15 @@
             console.log(event.model.item);
             this.month = event.model.item.name;
             this.season = event.model.item.season;
+            if(event.model.item.season == "Winter"){
+              this.color="cyan";}
+            if(event.model.item.season == "Spring"){
+              this.color="lightcoral";}
+            if(event.model.item.season == "Summer"){
+              this.color="green";}
+            if(event.model.item.season == "Autumn"){
+              this.color="darkorange";}
+            
           }  
 
         }
