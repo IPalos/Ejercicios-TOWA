@@ -19,9 +19,33 @@
         </style>
 
         <div style$="background-color:[[color]]">Month: [[month]], Season: [[season]]</div>
+        
+
         <template is="dom-repeat" items="{{months}}">
           <button on-click="cambiarMes">{{item.name}}</button>
+          <button on-click="removeMonth">X</button></br>
         </template>
+
+        <div>
+          <input type="text" value$="{{inputName}}" >Name</input>
+          <input type="text" value$="{{inputSeason}}" >Season</input>
+          <button on-click="addMonth">Add</button>
+        </div>
+
+        <!-- DOM IF -->
+        <template is="dom-if" if="[[isWinter]]">
+          <div>Estamos en Inviero</div>
+        </template>   
+        <template is="dom-if" if="[[isSpring]]">   
+          <div>Estamos en Primavera</div>
+        </template>   
+        <template is="dom-if" if="[[isSummer]]">   
+          <div>Estamos en Verano</div>
+        </template>   
+        <template is="dom-if" if="[[isAutumn]]">   
+          <div>Estamos en Otoño</div>
+        </template>   
+
       </template>
 
       <script>
@@ -35,6 +59,24 @@
                 value:"November"
               },
               season:{type:String, value:'Autumn'},
+              isWinter:{
+                type: Boolean,
+                value: false
+              },
+              isSpring:{
+                type:Boolean,
+                value:false
+              },
+              isSummer:{
+                type:Boolean,
+                value:false
+              },
+              isAutumn:{
+                type:Boolean,
+                value:false
+              },
+              inputName:{ type:String,value:"hello"},
+              inputSeason:{ type:String, value:"world"},
               months:{
                 type:Array,
                 value:[
@@ -54,18 +96,46 @@
               }
             }
           }
+
+          addMonth(){
+            this.push('months',{name:this.inputName, season:this.inputSeason})
+          }
+
           cambiarMes(event){
             console.log(event.model.item);
             this.month = event.model.item.name;
             this.season = event.model.item.season;
             if(event.model.item.season == "Winter"){
-              this.color="cyan";}
+              this.color="cyan";
+              this.isWinter=true;
+              this.isSpring=false;
+              this.isSummer=false;
+              this.isAutumn=false;
+            }
             if(event.model.item.season == "Spring"){
-              this.color="lightcoral";}
+              this.color="lightcoral";
+              this.isWinter=false;
+              this.isSpring=true;
+              this.isSummer=false;
+              this.isAutumn=false;
+
+            }
             if(event.model.item.season == "Summer"){
-              this.color="green";}
+              this.color="green";
+              this.isWinter=false;
+              this.isSpring=false;
+              this.isSummer=true;
+              this.isAutumn=false;
+
+            }
             if(event.model.item.season == "Autumn"){
-              this.color="darkorange";}
+              this.color="darkorange";
+              this.isWinter=false;
+              this.isSpring=false;
+              this.isSummer=false;
+              this.isAutumn=true;
+              
+            }
             
           }  
 
