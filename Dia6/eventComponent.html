@@ -1,0 +1,50 @@
+ <!doctype HTML>
+
+<html>
+  <head>
+    <title>EventComponent</title>
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+  </head>
+
+  <body>
+    <event-component></event-component>
+
+    <dom-module id="event-component">
+      <template>
+        <style>
+          :host button{
+            background-color:"blue";
+          }
+        </style>
+
+       <dv><button type="button" id="event-button" on-click="getEventOnClick">EVENTO</button></div>
+
+
+      </template>
+
+      <script>
+        class EventComponent extends Polymer.Element{
+          static get is(){return "event-component"}
+          static get properties(){
+            return{}
+          }
+
+          prepareButton(){
+            document.querySelector().addEventListener('click',getEventOnclick());
+          }
+
+          getEventOnClick(event){
+            console.log(event.detail);
+          }
+        }
+
+        customElements.define(EventComponent.is,EventComponent);
+      </script>
+    </dom-module>
+
+  </body>
+</html>
+

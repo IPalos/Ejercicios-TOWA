@@ -1,0 +1,56 @@
+ <!doctype HTML>
+
+<html>
+  <head>
+    <title>ShowArray</title>
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+  </head>
+
+  <body>
+    <show-array></show-array>
+    <div id="show-array-id"></div>
+
+    <dom-module id="show-array">
+      <template>
+        <style>
+        </style>
+
+       <div><button type="button" id="add-array-button" on-click="addToArray">Add to Array</button></div>
+       <div><button type="button" id="show-array-button" on-click="showArray">Show Array</button></div>
+
+      </template>
+
+      <script>
+        class ShowArray extends Polymer.Element{
+          static get is(){return "show-array"}
+          static get properties(){
+            return{
+              myArray:{
+                type:Array,
+                value:[]
+              }
+            }
+          }
+
+          addToArray(event){
+            console.log(this.get('myArray'));
+            this.push('myArray','Agrego un nuevo elemento al array</br>')
+            console.log("addToArray");
+          }
+
+          showArray(event){
+            document.querySelector("#show-array-id").innerHTML=`${this.get('myArray')}`;
+            console.log("showArray");
+          }
+        }
+
+        customElements.define(ShowArray.is,ShowArray);
+      </script>
+    </dom-module>
+
+  </body>
+</html>
+
