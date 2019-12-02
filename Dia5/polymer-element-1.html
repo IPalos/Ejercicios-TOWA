@@ -1,0 +1,65 @@
+ <!doctype HTML>
+
+<html>
+  <head>
+    <title>Componente 1</title>
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+  </head>
+
+  <body>
+    <component-one></componente-one>
+
+    <dom-module id="component-one">
+      <template>
+        <style>
+          .button{
+            background-color: [[color]]; /* Green */
+            border: none;
+            color: [[fontColor]];
+            padding: {{size}}px {{size*2}}px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+          }
+        </style>
+
+       <div><button class="button" on-click="">EVENTO</button></div>
+       <div><input type="text" id="change-color" value={{color}} ></button></div>
+       <div><input type="text" id="chonage-font-color" value={{fontColor}}></button></div>
+       <div><input type="number" id="change-size"value={{size}} ></button></div>
+
+
+      </template>
+
+      <script>
+        class ComponentOne extends Polymer.Element{
+          static get is(){return "component-one"}
+          static get properties(){
+            return{
+              color:{
+                type:String,
+                value:"blue"
+              },
+              fontColor:{
+                type:String,
+                value:"white"
+              },
+              size:{
+                type:Number,
+                value:16
+              }
+            }
+          }
+        }
+
+        customElements.define(ComponentOne.is,ComponentOne);
+      </script>
+    </dom-module>
+
+  </body>
+</html>
+

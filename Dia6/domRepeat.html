@@ -1,0 +1,71 @@
+ <!doctype HTML>
+
+<html>
+  <head>
+    <title>Dom-Repeat</title>
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+  </head>
+
+  <body>
+    <dom-repeat-element></dom-repeat-element>
+    <div id=""></div>
+
+    <dom-module id="dom-repeat-element">
+      <template>
+        <style>
+        </style>
+
+        <div class$="[[color]]">Month: [[month]], Season: [[season]]</div>
+        <template is="dom-repeat" items="{{months}}">
+          <button on-click="cambiarMes">{{item.name}}</button>
+        </template>
+      </template>
+
+      <script>
+        class DomRepeatElement extends Polymer.Element{
+          static get is(){return "dom-repeat-element"}
+          static get properties(){
+            return{
+              color:{type:String, value:'orange'},
+              month:{
+                type:String,
+                value:"November"
+              },
+              season:{type:String, value:'Autumn'},
+              months:{
+                type:Array,
+                value:[
+                  {name:'January',season:'Winter'},
+                  {name:'February',season:'Winter'},
+                  {name:'March',season:'Winter'},
+                  {name:'April',season:'Spring'},
+                  {name:'May',season:'Spring'},
+                  {name:'June',season:'Spring'},
+                  {name:'July',season:'Summer'},
+                  {name:'August',season:'Summer'},
+                  {name:'September',season:'Summer'},
+                  {name:'October',season:'Autumn'},
+                  {name:'November',season:'Autumn'},
+                  {name:'December',season:'Autumn'}
+                ]
+              }
+            }
+          }
+          cambiarMes(event){
+            console.log(event.model.item);
+            this.month = event.model.item.name;
+            this.season = event.model.item.season;
+          }  
+
+        }
+
+        customElements.define(DomRepeatElement.is,DomRepeatElement);
+      </script>
+    </dom-module>
+
+  </body>
+</html>
+
