@@ -1,0 +1,75 @@
+ <!doctype HTML>
+
+<html>
+  <head>
+    <title>BusinessID</title>
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+  </head>
+
+  <body>
+    <component-two></component-two>
+
+    <dom-module id="component-two">
+      <template>
+        <style>
+            :host .card {
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                transition: 0.3s;
+                width: 20%;
+            }
+
+            :host .card:hover {
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            }
+
+            :host .container {
+                padding: 2px 16px;
+            }
+        </style>
+
+        <div class="card">
+        <div class="container">
+          <h3><b>[[name]]</b></h3>
+          <h4><b>[[business]]</b></h4>
+          <p>[[age]]</p>
+        </div>
+        </div>
+
+       <div><input type="text" id="change-name" value={{name::input}} ></button></div>
+       <div><input type="text" id="chonage-business" value={{business::input}}></button></div>
+       <div><input type="number" id="change-age"value={{age::input}} ></button></div>
+
+
+      </template>
+
+      <script>
+        class ComponentTwo extends Polymer.Element{
+          static get is(){return "component-two"}
+          static get properties(){
+            return{
+              name:{
+                type:String,
+                value:"Ignacio"
+              },
+              business:{
+                type:String,
+                value:"TOWA"
+              },
+              age:{
+                type:Number,
+                value:25
+              }
+            }
+          }
+        }
+
+        customElements.define(ComponentTwo.is,ComponentTwo);
+      </script>
+    </dom-module>
+
+  </body>
+</html>
+

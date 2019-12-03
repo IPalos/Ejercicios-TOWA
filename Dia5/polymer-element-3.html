@@ -1,0 +1,77 @@
+<!doctype HTML>
+
+<html>
+  <head>
+    <title>MenuItem</title>
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+  </head>
+
+  <body>
+    <component-three></component-three>
+
+    <dom-module id="component-three">
+      <template>
+        <style>
+            :host li a {
+                display: block;
+                color: #000;
+                padding: 8px 16px;
+                text-decoration: none;
+            }
+
+            :host li a:hover {
+                background-color:[[hovercolor]];
+                color: white;
+            }
+        </style>
+
+        <ul style$="list-style-type: none;
+        margin: [[width]];
+        padding: [[height]];
+        width: [[width]] %;
+        height: [[height]] %;
+        background-color: #f1f1f1;">
+            <li><a>Inicio</a></li>
+            <li><a>Personas</a></li>
+            <li><a>Vehiculos</a></li>
+            <li><a>Naves</a></li>
+        </ul>
+
+       <div><input type="number" id="change-width" value={{width::input}} ></button></div>
+       <div><input type="number" id="change-height" value={{height::input}}></button></div>
+       <div><input type="text" id="change-hover-color"value={{hovercolor::input}} ></button></div>
+
+
+      </template>
+
+      <script>
+        class ComponentThree extends Polymer.Element{
+          static get is(){return "component-three"}
+          static get properties(){
+            return{
+              width:{
+                type:Number,
+                value:200
+              },
+              height:{
+                type:Number,
+                value:200
+              },
+              hoverColor:{
+                type:String,
+                value:"pink"
+              }
+            }
+          }
+        }
+
+        customElements.define(ComponentThree.is,ComponentThree);
+      </script>
+    </dom-module>
+
+  </body>
+</html>
+

@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title>Componente 1</title>
+    <title>Change Button Properties</title>
     <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
     <script src="webcomponentsjs/webcomponents-loader.js"></script>
     <link rel="import" href="iron-ajax/iron-ajax.html">
@@ -15,22 +15,17 @@
     <dom-module id="component-one">
       <template>
         <style>
-          .button{
-            background-color: [[color]]; /* Green */
-            border: none;
-            color: [[fontColor]];
-            padding: {{size}}px {{size*2}}px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-          }
         </style>
 
-       <div><button class="button" on-click="">EVENTO</button></div>
-       <div><input type="text" id="change-color" value={{color}} ></button></div>
-       <div><input type="text" id="chonage-font-color" value={{fontColor}}></button></div>
-       <div><input type="number" id="change-size"value={{size}} ></button></div>
+       <div><button class="button" style$="background-color: [[color]]; /* Green */border: none;
+        color: [[fontcolor]];
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: [[size]]px;">EVENTO</button></div>
+       <div><input type="text" id="change-color" value={{color::input}} ></button></div>
+       <div><input type="text" id="chonage-font-color" value={{fontcolor::input}}></button></div>
+       <div><input type="number" id="change-size"value={{size::input}} ></button></div>
 
 
       </template>
@@ -44,7 +39,7 @@
                 type:String,
                 value:"blue"
               },
-              fontColor:{
+              fontcolor:{
                 type:String,
                 value:"white"
               },

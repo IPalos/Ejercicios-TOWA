@@ -1,0 +1,73 @@
+<!doctype HTML>
+
+<html>
+  <head>
+    <title>PresentationCard</title>
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+  </head>
+
+  <body style="background-color:green;">
+    <presentation-card></presentation-card>
+
+    <dom-module id="presentation-card">
+      <template>
+        <style>
+        </style>
+
+        <div style="width: 80%;height: 80%; background-color: lightgray; padding: 100px;" id="card">
+          <div style="width: 80%; height:100px; margin: 20px; background-color: [[bgcolor]];" id="info" >
+            <p style="color: black;">[[name]]</p>
+            <p style="color: black;">[[reference]]</p>
+          </div>
+          <div style="width: 80%; height: 100px; background-color: gray; margin: 20px;"><input style="margin;" type="text" id="change-name" value={{name::input}} ></input></div>
+          <div style="width: 80%; height: 100px; background-color: gray; margin: 20px;"><input type="text" id="change-reference" value={{reference::input}} ></input></div>
+          <div style="width: 80%; height: 100px; background-color:teal; margin: 20px;"><button id="color-teal" on-click="toTeal" >Cambiar A Teal</button></div>
+          <div style="width: 80%; height: 100px; background-color:seagreen; margin: 20px;"><button id="color-sea-green" on-click="toGreen" >Cambiar A Sea Green</button></div>
+          <div style="width: 80%; height: 100px; background-color:firebrick; margin: 20px;"><button id="color-fire-brick" on-click="tored" >Cambiar A Fire Brick</button></div>
+        
+        
+        </div>
+
+
+      </template>
+
+      <script>
+        class PresentationCard extends Polymer.Element{
+          static get is(){return "presentation-card"}
+          static get properties(){
+            return{
+              bgcolor:{
+                type:String,
+                value:"lightgray"
+              },
+              name:{
+                type:String,
+                value:"NOMBRE"
+              },
+              reference:{
+                type:String,
+                value:"REFERENCE"
+              }
+            }
+          }
+          toTeal(){
+                this.bgcolor = "teal;";
+            };          
+            toGreen(){
+                this.bgcolor = "seagreen;";
+            };         
+            tored(){
+                this.bgcolor = "firebrick;";
+            };
+        }
+
+        customElements.define(PresentationCard.is,PresentationCard);
+      </script>
+    </dom-module>
+
+  </body>
+</html>
+
