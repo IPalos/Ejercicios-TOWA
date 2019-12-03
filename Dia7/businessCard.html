@@ -13,7 +13,8 @@
     <business-parent></business-parent>
     <div id=""></div>
     
-        <!--COMPONENTE UNO -->
+<!--COMPONENTE Principal -->
+<!-- =============================================================-->        
     <dom-module id="business-parent">
 
       <template>
@@ -61,7 +62,7 @@
         <button class="prevnext" on-click="nextUser" style="right: 25px;"> > </button>
         </div>
         
-        <!--  AQUI VA COMPONENTE 2-->
+<!--  AQUI VAN COMPONENTES HIJO-->
         <address-component address=[[currentUser.address]]></address-component>
         <company-component company=[[currentUser.company]]></company-component>
         
@@ -123,8 +124,8 @@
     </dom-module>
 
 
-		<!-- Address Info -->
-		
+<!-- Address Info -->
+<!-- ================================================= -->		
     <dom-module id="address-component">
       <template>
         <style>
@@ -158,9 +159,6 @@
             return{
             }
           }
-
-
-
         }
 
         customElements.define(AddressComponent.is,AddressComponent);
@@ -168,8 +166,8 @@
     </dom-module>
     
     
-    <!-- Company Info -->
-		
+<!-- Company Info -->
+<!-- ============================================ --> 		
     <dom-module id="company-component">
       <template>
         <style>
