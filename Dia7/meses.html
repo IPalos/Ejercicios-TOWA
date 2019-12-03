@@ -1,0 +1,167 @@
+ <!doctype HTML>
+
+<html>
+  <head>
+    <title>Dom-Repeat</title>
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+  </head>
+
+  <body>
+    <calendar-parent></calendar-parent>
+    <div id=""></div>
+    
+        <!--COMPONENTE UNO -->
+    <dom-module id="calendar-parent">
+
+      <template>
+        <style>
+          :host {
+            display: block;
+            background-color:teal;
+            color:black;
+            padding:16px;
+            margin: 8px;
+          }
+        </style>
+
+      
+        <div style$="background-color:[[color]]; text-align:center">
+          <h2>Mes: [[selected.month]]</h2>
+          <h2>Estación : [[selected.season]]</h2>
+        </div>
+        <month-component selected-month={{selected}} parent-Color={{color}}></month-component>
+      </template>
+
+      <script>
+        class CalendarParent extends Polymer.Element{
+          static get is (){return "calendar-parent"}
+          static get properties(){
+
+            return{
+              selected:{
+                type: Object,
+              },
+              color:{
+                type:String,
+              }
+            }
+
+          }
+        }
+        
+        customElements.define(CalendarParent.is, CalendarParent);
+
+
+      </script>
+    </dom-module>
+
+    <dom-module id="month-component">
+      <template>
+        <style>
+          button{  
+          	background-color: darkturquoise;
+  					border: none;
+  					color: black;
+  					padding: 10px 25px;
+  					margin: 6px 0px;
+  					text-align: center;
+  					text-decoration: none;
+  					display: inline-block;
+  					font-size: 16px;
+          
+          }
+          
+        </style>
+
+        
+        <!-- DOM REPEAT -->
+        <template is="dom-repeat" items="{{months}}">
+          <div style="  display: flex;
+  align-items: center;
+  justify-content: center;">
+            <button on-click="cambiarMes">{{item.name}}</button>
+            <button on-click="removeMonth">X</button></br>
+          </div>
+        </template>
+
+
+        <!-- New Month -->
+        <div style="display:block; background-color: darkcyan; padding:30px;">
+          <input type="text" value={{inputName::input}} >Name</input>
+          <input type="text" value={{inputSeason::input}} >Season</input>
+          <button on-click="addMonth">Add</button>
+        </div>  
+
+      </template>
+
+      <script>
+        class MonthComponent extends Polymer.Element{
+          static get is(){return "month-component"}
+          static get properties(){
+            return{
+              parentColor:{type:String, value:'orange',notify:true},
+              selectedMonth:{type:Object, value:{month:"MONTH-CH",season:"SEASON_CH"},notify:true},
+              inputName:{ type:String},
+              inputSeason:{ type:String},
+              months:{
+                type:Array,
+                value:[
+                  {name:'January',season:'Winter'},
+                  {name:'February',season:'Winter'},
+                  {name:'March',season:'Winter'},
+                  {name:'April',season:'Spring'},
+                  {name:'May',season:'Spring'},
+                  {name:'June',season:'Spring'},
+                  {name:'July',season:'Summer'},
+                  {name:'August',season:'Summer'},
+                  {name:'September',season:'Summer'},
+                  {name:'October',season:'Autumn'},
+                  {name:'November',season:'Autumn'},
+                  {name:'December',season:'Autumn'}
+                ]
+              }
+            }
+          }
+
+          addMonth(){
+            this.push('months',{name:this.inputName, season:this.inputSeason})
+          }
+
+          cambiarMes(event){
+            let selected = event.model.item;
+            
+            this.set("selectedMonth.month",selected.name);
+            this.set("selectedMonth.season",selected.season);
+
+
+            if(selected.season == "Winter"){
+              this.parentColor="powderblue";
+            }
+            if(selected.season == "Spring"){
+              this.parentColor="lightsalmon";
+            }
+            if(selected.season == "Summer"){
+              this.parentColor="mediumspringgreen";
+            }
+            if(selected.season == "Autumn"){
+              this.parentColor="peru";              
+            }
+          }  
+          
+          removeMonth(event){
+           console.log(event);
+           this.splice("months",event.model.index,1);
+          }
+
+        }
+
+        customElements.define(MonthComponent.is,MonthComponent);
+      </script>
+    </dom-module>
+
+  </body>
+</html>
+

@@ -1,0 +1,107 @@
+<!doctype HTML>
+
+<html>
+  <head>
+    <title>Mi primer Componente</title>
+
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+
+  </head>
+  <body style="background-color:teal; color:cyan">
+    <h1>Welcome</h1>
+    <polymer-padre></polymer-padre>
+
+
+
+    <!--COMPONENTE UNO -->
+    <dom-module id="polymer-padre">
+
+      <template>
+        <style>
+          :host{
+            display: block;
+            background-color:darkcyan;
+            color:cyan	;
+            padding:16px;
+            margin: 8px;
+          }
+        </style>
+
+      
+      
+        <h2>Polymer Padre</h2>
+        <div> Nombre: [[name]] </div>
+        <div>Name: <input type:"text" value={{name::input}}></div>
+        <polymer-hijo padre-name={{name}}></polymerhijo>
+      </template>
+
+      <script>
+        class PolymerPadre extends Polymer.Element{
+          static get is (){return "polymer-padre"}
+          static get properties(){
+
+            return{
+              name:{
+                type:String, value: "Ignacio"
+              },
+            }
+
+          }
+        }
+        
+        customElements.define(PolymerPadre.is, PolymerPadre);
+
+
+      </script>
+    </dom-module>
+
+
+    <!-- COMPONENTE DOS -->
+    <dom-module id="polymer-hijo">
+
+      <template>
+      <style>
+        :host{
+          display: block;
+          background-color:mediumaquamarine;
+          color:teal;
+          padding:16px;
+          margin: 8px;
+        }
+      </style>
+      
+        <h2>Mi segundo elemento</h2>
+        <div> Nombre: [[name]] </div>
+        <div>Name: <input type:"text" value={{name::input}}></div>
+        <div>PadreName: <input type:"text" value={{padreName::input}}></div>
+      </template>
+
+      <script>
+        class PolymerHijo extends Polymer.Element{
+          static get is (){return "polymer-hijo"}
+          static get properties(){
+
+            return{
+              name:{
+                type:String, value: "Palos"
+              },
+              padreName:{
+                type:String, 
+                notify:true
+              }
+            }
+
+          }
+        }
+        
+        customElements.define(PolymerHijo.is, PolymerHijo);
+
+      </script>
+    </dom-module>
+
+
+  </body>
+</html>
