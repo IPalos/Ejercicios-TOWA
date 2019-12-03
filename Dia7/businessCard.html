@@ -1,0 +1,217 @@
+ <!doctype HTML>
+
+<html>
+  <head>
+    <title>BusinessCardJSONPlaceholder</title>
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+  </head>
+
+  <body>
+    <business-parent></business-parent>
+    <div id=""></div>
+    
+        <!--COMPONENTE UNO -->
+    <dom-module id="business-parent">
+
+      <template>
+        <style>
+          :host {
+            display: block;
+            background-color:teal;
+            color:lavender;
+            padding:16px;
+            margin: 8px;
+          }
+          :host .prevnext{
+            position:absolute;
+          	background-color: darkturquoise;
+  					border: none;
+  					color: black;
+  					padding: 10px 25px;
+  					margin: 6px 0px;
+  					text-align: center;
+  					text-decoration: none;
+  					display: inline-block;
+  					font-size: 50px;
+          
+          }
+          :host button{
+          	  background-color: darkturquoise;
+  					  border: none;
+  					  color: black;
+  					  padding: 10px 25px;
+  					  margin: 6px 0px;
+  					  text-align: center;
+  					  text-decoration: none;
+  					  display: inline-block;
+  					}
+        </style>
+
+      
+        <div style="text-align:center">
+          <h2>Name [[currentUser.name]]</h2>
+          <h2>Email : [[currentUser.email]]</h2>
+          <button on-click="getUsers"> Get Users </button>
+        </div>
+        <div style="">
+        <button class="prevnext" on-click="prevUser" style="left:25px"> < </button>
+        <button class="prevnext" on-click="nextUser" style="right: 25px;"> > </button>
+        </div>
+        
+        <!--  AQUI VA COMPONENTE 2-->
+        <address-component address=[[currentUser.address]]></address-component>
+        <company-component company=[[currentUser.company]]></company-component>
+        
+      </template>
+
+      <script>
+     
+        
+      
+        class BusinessParent extends Polymer.Element{
+          static get is (){return "business-parent"}
+          static get properties(){
+
+            return{
+              users:{
+                type: Array
+              },
+              currentUser:{
+                type:Object
+              },
+              userIndex:{
+                type:Number,
+                value:0
+              }
+            }
+
+          }
+          async getUsers(){
+            this.set('users',await ( await fetch("https://jsonplaceholder.typicode.com/users")).json());
+            console.log(this.users);
+            this.set("currentUser", this.users[0]);
+          }
+          
+          nextUser(){
+            console.log(this.userIndex);
+ 
+            this.set("userIndex",(this.userIndex+1)%10)
+            this.set("currentUser",this.users[this.userIndex]);
+          }
+          
+          prevUser(){
+            console.log(this.userIndex);
+            
+            if(this.userIndex === 0){
+              this.set("userIndex",9)
+            }
+            else{
+              this.set("userIndex",this.userIndex-1);
+            }
+            this.set("currentUser",this.users[this.userIndex]);
+          }
+          
+        }
+        
+        customElements.define(BusinessParent.is, BusinessParent);
+
+
+      </script>
+    </dom-module>
+
+
+		<!-- Address Info -->
+		
+    <dom-module id="address-component">
+      <template>
+        <style>
+          button{  
+          	background-color: darkturquoise;
+  					border: none;
+  					color: black;
+  					padding: 10px 25px;
+  					margin: 6px 0px;
+  					text-align: center;
+  					text-decoration: none;
+  					display: inline-block;
+  					font-size: 16px;
+          
+          }
+          
+        </style>
+
+				<div class="address-component" style="text-align:center; background-color:darkcyan;">
+				  <h2>Address: [[address.street]]</h2>
+				  <div>City: [[address.city]]</div>
+				  <div>Suite: [[address.suite]]</div>
+				</div>
+
+      </template>
+
+      <script>
+        class AddressComponent extends Polymer.Element{
+          static get is(){return "address-component"}
+          static get properties(){
+            return{
+            }
+          }
+
+
+
+        }
+
+        customElements.define(AddressComponent.is,AddressComponent);
+      </script>
+    </dom-module>
+    
+    
+    <!-- Company Info -->
+		
+    <dom-module id="company-component">
+      <template>
+        <style>
+          button{  
+          	background-color: darkturquoise;
+  					border: none;
+  					color: black;
+  					padding: 10px 25px;
+  					margin: 6px 0px;
+  					text-align: center;
+  					text-decoration: none;
+  					display: inline-block;
+  					font-size: 16px;
+          
+          }
+          
+        </style>
+
+				<div class="company-component" style="text-align:center; background-color:darkcyan;">
+				  <h2>Company: [[company.name]]</h2>
+				  <div>City: [[company.catchPhrase]]</div>
+				  <div>Suite: [[company.bs]]</div>
+				</div>
+
+      </template>
+
+      <script>
+        class CompanyComponent extends Polymer.Element{
+          static get is(){return "company-component"}
+          static get properties(){
+            return{
+            }
+          }
+
+
+
+        }
+
+        customElements.define(CompanyComponent.is,CompanyComponent);
+      </script>
+    </dom-module>
+
+  </body>
+</html>
+
