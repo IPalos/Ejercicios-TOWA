@@ -1,0 +1,258 @@
+ <!doctype HTML>
+
+<html>
+  <head>
+    <title>Ejercicio Dia 7</title>
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+  </head>
+
+  <body>
+    <movie-parent></movie-parent>
+    <div id=""></div>
+    
+        <!--COMPONENTE UNO -->
+    <dom-module id="movie-parent">
+
+      <template>
+        <style>
+          :host {
+            display: block;
+            background-color:teal;
+            color:black;
+            padding:16px;
+            margin: 8px;
+          }
+        </style>
+
+      
+        <div text-align:center">
+          <h2>Pelicula: [[movies.selectedmovie.name]]</h2>
+          <h2>Duración : [[`movies.${selectedmove}.duration`]]</h2>
+          <div>SelectedMovie: [[selectedMovie]]</div>
+        </div>
+        <add-movie added-movie={{added}} movies={{movies}} ></add-movie>
+        <edit-movie selected-movie={{selectedMovie}} movies={{movies}}></edit-movie>
+        <show-movies movies={{movies}} selected-movie={{selectedMovie}} ></show-movies>
+      </template>
+
+      <script>
+        class MovieParent extends Polymer.Element{
+          static get is (){return "movie-parent"}
+          static get properties(){
+
+            return{
+              selectedMovie:{
+                type: Number,
+              },
+              added:{type:Object, notify:true},
+              movies:{type:Array, notify:true
+              },
+              movieName:{type:String},
+              movieDuration:{type:Number},
+            }
+
+          }
+        }
+        
+        customElements.define(MovieParent.is, MovieParent);
+
+
+      </script>
+    </dom-module>
+
+<!-- ADD MOVIE ========================== -->
+
+    <dom-module id="add-movie">
+      <template>
+        <style>
+          button{  
+          	background-color: darkturquoise;
+  					border: none;
+  					color: black;
+  					padding: 10px 25px;
+  					margin: 6px 0px;
+  					text-align: center;
+  					text-decoration: none;
+  					display: inline-block;
+  					font-size: 16px;
+          
+          }
+          
+        </style>
+
+        
+        <!-- New Movie -->
+        <div style="display:block; background-color: darkcyan; align-items: center; justify-content: center; padding:30px">
+          <input type="text" value={{inputName::input}} >Movie Name</input></br>
+          <input type="text" value={{inputDuration::input}} >Duration</input></br>
+          <button style="margin: auto;" on-click="addMovie">Add</button>
+        </div>  
+
+      </template>
+
+      <script>
+        class AddMovie extends Polymer.Element{
+          static get is(){return "add-movie"}
+          static get properties(){
+            return{
+              inputName:{ type:String},
+              inputDuration:{ type:String},
+              addedMovie:{type:Object,notify:true},
+              movies:{
+                type:Array,
+                value:[],
+                notify:true
+              }
+            }
+          }
+
+          addMovie(){
+            this.set("addedMovie",{name:this.inputName, duration:this.inputDuration})
+            this.push('movies',{name:this.inputName, duration:this.inputDuration})
+          }
+  
+
+        }
+
+        customElements.define(AddMovie.is,AddMovie);
+      </script>
+    </dom-module>
+    
+    
+<!-- EDIT MOVIE ========================== -->
+    <dom-module id="edit-movie">
+      <template>
+        <style>
+          button{  
+          	background-color: darkturquoise;
+  					border: none;
+  					color: black;
+  					padding: 10px 25px;
+  					margin: 6px 0px;
+  					text-align: center;
+  					text-decoration: none;
+  					display: inline-block;
+  					font-size: 16px;
+          
+          }
+          
+        </style>
+
+        
+
+        <!-- Edit Movie -->
+        <div style="display:block; background-color: darkcyan; align-items: center; justify-content: center; padding:30px">
+          <input type="text" on-input="editMovie" value={{inputName::input}} >Movie Name</input></br>
+          <input type="text" on-input="editMovie" value={{inputDuration::input}} >Duration</input></br>
+        </div>  
+
+      </template>
+
+      <script>
+        class EditMovie extends Polymer.Element{
+          static get is(){return "edit-movie"}
+          static get properties(){
+            return{
+              movies:{
+                type:Array, notify:true
+              },
+              selectedMovie:{ 
+                type:Number,notify:true
+              },
+              inputName:{type:String, notify:true},
+              inputDuration:{type:String, notify:true},
+            }
+          }
+
+					editMovie(event){
+					  console.log(this.movies[this.selectedMovie],name);
+					  this.set(`movies.${this.selectedMovie}.name`,this.inputName);
+					  this.set(`movies.${this.selectedMovie}.duration`,this.inputDuration);
+					}
+					
+
+
+        }
+
+        customElements.define(EditMovie.is,EditMovie);
+      </script>
+    </dom-module>
+
+
+<!-- SHOW MOVIES ========================== -->
+    <dom-module id="show-movies">
+      <template>
+        <style>
+          button{  
+          	background-color: darkturquoise;
+  					border: none;
+  					color: black;
+  					padding: 10px 25px;
+  					margin: 6px 0px;
+  					text-align: center;
+  					text-decoration: none;
+  					display: inline-block;
+  					font-size: 16px;
+          
+          }
+          
+        </style>
+
+        
+
+        <!-- Show Movies -->
+        <!-- DOM REPEAT -->
+        <template is="dom-repeat" items="{{movies}}">
+          <div style="  display: flex;
+  											align-items: center;
+  											justify-content: center;">
+            <button on-click="selectMovie">{{item.name}}</br>{{item.duration}} </button>
+            <button on-click="removeMovie" >X</button></br>
+          </div>
+        </template>
+        
+      </template>
+
+      <script>
+        class ShowMovies extends Polymer.Element{
+          static get is(){return "show-movies"}
+          static get properties(){
+            return{
+              movies:{ 
+                type:Array,
+                value:[{name:"EndGame",duration:210},{name:"Batman",duration:180}],
+                notyfy:true
+              },
+              selectedMovie:{
+                type:Number	, notify:true
+              },
+              addedMovie:{
+                type:Object, notify:true
+              },
+            }
+          }
+          
+          selectMovie(event){
+            this.set("selectedMovie",event.model.index);
+          }
+          
+          removeMovie(event){
+          	this.splice("movies",event.model.item.index,1)
+          }
+          
+          
+          
+          
+
+        }
+
+        customElements.define(ShowMovies.is,ShowMovies);
+      </script>
+    </dom-module>
+
+  </body>
+</html>
+

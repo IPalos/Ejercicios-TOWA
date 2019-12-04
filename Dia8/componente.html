@@ -1,0 +1,80 @@
+<!doctype HTML>
+
+<html>
+  <head>
+    <title>Mi primer Componente</title>
+
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+
+  </head>
+  <body>
+    <h1>Welcome</h1>
+    <polymer-element></polymer-element>
+
+
+
+
+    <dom-module id="polymer-element">
+      <template>
+        <style>
+        </style>
+        <h2>Welcome</h2>
+        <div>Uno: <input type="text" value="{{uno::input}}"></div>
+        <div>Dos: <input type="text" value="{{dos::input}}"></div>
+        <div>Tres: <input type="text" value="{{tres::input}}"></div>
+        <div><button on click="add">Add</button></div>
+        <div>[[cuatro]]</div>
+        
+        <div><button on click="cambiarNombre">Add</button></div>
+        <div><button on click="cambiarEdad">Add</button></div>
+        <div><button on click="cambiarCalle">Add</button></div>
+        <div><button on click="cambiarNumero">Add</button></div> 
+      </template>
+      <script>
+        class PolymerElement extends Polymer.Element{
+          static get is (){return "polymer-element"}
+	  static get observers(){
+	  				//Puedo meter mas de un argumento a cambiarValor3, y me detecta
+            return ["cambiarValor3(uno)"]
+          }
+          static get properties(){
+
+            return{
+              uno:{
+                type:String, value: "November"
+              },
+              dos:String,
+              tres:{type:String,
+              },
+              cuatro: Array,
+            }
+          }
+
+          cambiarValor(a){
+            console.log('CambiarValor',a)
+            
+          }
+          
+          cambiarValor2(a,b,c){
+            console.log("CambiarValor2",a,b,c)
+          }
+          
+          cambiarValor3(){
+            console.log("CambiarValor3")
+          }
+          
+
+        }
+        
+        customElements.define(PolymerElement.is, PolymerElement);
+
+
+      </script>
+    </dom-module>
+
+
+  </body>
+</html>
