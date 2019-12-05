@@ -1,0 +1,421 @@
+<!doctype HTML>
+
+<html>
+  <head>
+    <title>Ejercicio Dia 8</title>
+    <script src="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/iron-ajax/iron-ajax.html">
+    <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/polymer/polymer-element.html">
+  </head>
+
+  <body>
+    <store-parent></store-parent>
+
+    <div>Iconos diseñados por <a href="https://www.flaticon.es/<?=_('authors/')?>payungkead" title="Payungkead">Payungkead</a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es</a></div>
+
+
+<!--COMPONENTE PADRE ============================================== -->
+    <dom-module id="store-parent">
+
+      <template>
+        <style>
+          :host {
+            display: block;
+            background-color:teal;
+            color:black;
+            padding:16px;
+            margin: 8px;
+          }
+        </style>
+
+        <!-- Titles -->
+        <div stylestext-align:center">
+          <h2>Polymer Store</h2>
+          <h3>Cart</h3>
+        </div>
+
+        <!-- Child Components -->
+        <cart-component bought-item={{boughtItem}}></cart-component>
+
+        <h3>Products</h3>
+
+        <product-component bought-item={{boughtItem}}></product-component>
+
+      </template>
+
+<!-- Script -->
+      <script>
+        class StoreParent extends Polymer.Element{
+          static get is (){return "store-parent"}
+          static get properties(){
+
+            return{
+              boughtItem:{
+                type:Object,
+                notify:true,
+              },
+
+
+            }
+
+          }
+        }
+
+        customElements.define(StoreParent.is, StoreParent);
+
+
+      </script>
+    </dom-module>
+
+<!-- CART ========================== -->
+
+    <dom-module id="cart-component">
+      <template>
+        <style>
+          button{
+          	background-color: darkturquoise;
+  					border: none;
+  					color: black;
+  					padding: 10px 25px;
+  					margin: 6px 0px;
+  					text-align: center;
+  					text-decoration: none;
+  					display: inline-block;
+  					font-size: 16px;
+          }
+
+          :host thead{
+            background-color: darkcyan;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+
+          }
+
+          :host td{
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+            background-color: darkturquoise;
+            text-align: center;
+            text
+          }
+
+        </style>
+
+
+        <!-- Cart Table -->
+        <table style="width:100%;">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Units</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          <!-- DOM REPEAT -->
+          <template is="dom-repeat" items="{{boughtProducts}}">
+              <!-- <cart-element name=[[item.name]] price=[[item.price]] in-cart=[[item.inCart]] total=[[item.total]] ></cart-element> -->
+            <tr>
+              <td>[[item.name]]</td>
+              <td>[[item.price]]</td>
+              <td>[[item.inCart]]</td>
+              <td>[[item.total]]</td>
+            </tr>
+          </template>
+            
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>Total</td>
+              <td></td>
+              <td>[[totalItems]]</td>
+              <td>[[totalCost]]</td>
+            </tr>
+          </tfoot>
+          </table>
+
+        <!-- DOM REPEAT -->
+        <!-- <template is="dom-repeat" items="{{boughtProducts}}">
+          <cart-element name=[[item.name]] price=[[item.price]] in-cart=[[item.inCart]] total=[[item.total]] ></cart-element>
+        </template> -->
+
+
+        <!-- <div class="" style="display:block; background-color: darkcyan; align-items: center; justify-content: center; padding:30px">
+          <input type="text" value={{inputName::input}} >Movie Name</input></br>
+          <input type="text" value={{inputDuration::input}} >Duration</input></br>
+          <button style="margin: auto;" on-click="addMovie">Add</button>
+        </div> -->
+
+      </template>
+
+      <script>
+        class CartComponent extends Polymer.Element{
+          static get is(){return "cart-component"}
+          static get observers(){
+            return ["calculateTotal(boughtProducts.*)"]
+          }
+          static get properties(){
+            return{
+                boughtProducts:{
+                  type:Array,
+                  value:[],
+                  notify:true,
+                  observer:"calculateTotal"
+                },
+                boughtItem:{
+                  type:Object,
+                  notify:true,
+                  observer:"itemBought"
+                },
+                totalItems:{
+                  type:Number,
+                  value:0,
+                  notify:true,
+                },
+                totalCost:{type:Number,
+                  value:0,
+                notify:true
+                }
+              }
+            }
+
+
+          itemBought(item){
+            console.log("se llama ItemBought")
+            console.log(this.boughtProducts);
+            if (this.boughtItem.name != undefined){
+              let wiu= {name: this.boughtItem.name.toUpperCase(),price:this.boughtItem.price, inCart:(this.boughtItem.total-this.boughtItem.units),total:0}
+
+              wiu.total=wiu.inCart*wiu.price;
+              if(this.boughtProducts.filter(a=> a.name ===wiu.name).length === 0){
+                this.push(`boughtProducts`,wiu);
+              }
+              else{
+                this.boughtProducts.forEach(a=> {if(a.name ===wiu.name){
+                  this.set(`boughtProducts.${this.boughtProducts.indexOf(a)}`,wiu)}
+                } );
+              }
+            }
+          };
+
+          calculateTotal(){
+            console.log("calculate cost")
+            let totalItems=0;
+            let totalCost=0;
+            this.boughtProducts.forEach(a=> {totalItems+= a.inCart; totalCost+=a.total});
+            this.set("totalItems",totalItems);
+            this.set("totalCost",totalCost);
+          }
+
+
+        }
+
+        customElements.define(CartComponent.is,CartComponent);
+      </script>
+    </dom-module>
+
+<!-- CART ELEMENT ========================== -->
+<dom-module id="cart-element">
+    <template>
+      <style>
+        :host button{
+          background-color: darkturquoise;
+          border: none;
+          color: black;
+          padding: 10px 25px;
+          margin: 6px 0px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+        }
+        /* :host .product-row{
+
+        } */
+        :host ul{
+          width: 100%;
+          /* top: 100px; */
+          list-style-type: none;
+          margin: 10px 0px 0px 0px ;
+          padding: 10px;
+          overflow: hidden;
+          background-color: mediumaquamarine;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+        }
+        :host li{
+          float:left;
+          /* background-color: mediumaquamarine; */
+          padding: 10px, ;
+          width: 20%;
+          height: 100%;
+
+        }
+
+      </style>
+
+
+      <div class="product-row">
+        <ul>
+        <li>[[name]]</li>
+        <li>[[price]]</li>
+        <li>[[inCart]]</li>
+        <li>[[total]]</li>
+        </ul>
+      </div>
+    </br>
+
+    </template>
+
+    <script>
+      class CartElement extends Polymer.Element{
+        static get is(){return "cart-element"}
+        static get properties(){
+          return{
+            name:String,
+            price:Number,
+            inCart:Number,
+            total:Number,
+          }
+        }
+      }
+
+      customElements.define(CartElement.is,CartElement);
+    </script>
+  </dom-module>
+
+<!-- PRODUCT COMPONENT ========================== -->
+    <dom-module id="product-component">
+      <template>
+        <style>
+          :host button{
+          	background-color: darkturquoise;
+  					border: none;
+  					color: black;
+  					padding: 10px 25px;
+  					margin: 6px 0px;
+  					text-align: center;
+  					text-decoration: none;
+  					display: inline-block;
+  					font-size: 16px;
+
+          }
+          :host .product-card{
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+            background-color: darkcyan;
+            padding:30px
+          }
+
+        </style>
+
+
+
+        <!-- PRODUCTS -->
+        <table style="width: 100%;">
+          <td>
+              <div class="product-card">
+                <h2>PIC</h2>
+                <img style="width: 100px; height: 100px;" src="PIC.svg">
+                <p>Price: [[products.pic.price]]</p>
+                <p>Units: [[products.pic.units]]</p>
+                <button id="pic" on-click="add2cart" >+</button>
+                <button id="pic" on-click="removeFromCart" >-</button>
+              </div>
+          </td>
+          <td>
+              <div class="product-card">
+                <h2>PROCESSOR</h2>
+                <img style="width: 100px; height: 100px;" src="Processor.svg">
+                <p>Price: [[products.proc.price]]</p>
+                <p>Units: [[products.proc.units]]</p>
+                <button id="proc" on-click="add2cart" >+</button>
+                <button id="proc" on-click="removeFromCart" >-</button>
+              </div>
+          </td>
+          <td>
+              <div class="product-card">
+                <h2>TRANSISTOR</h2>
+                <img style="width: 100px; height: 100px;" src="Transistor.svg">
+                <p>Price: [[products.trans.price]]</p>
+                <p>Units: [[products.trans.units]]</p>
+                <button id="trans" on-click="add2cart" >+</button>
+                <button id="trans" on-click="removeFromCart" >-</button>
+              </div>
+          </td>
+        </table>
+
+
+      </template>
+
+      <script>
+        class ProductComponent extends Polymer.Element{
+          static get is(){return "product-component"}
+          static get properties(){
+            return{
+              products:{
+                type:Object,
+                value:{
+                  pic:{
+                    name:"pic",
+                    units:10,
+                    price:10.5,
+                    total:10
+                  },
+                  proc:{
+                    name:"processor",
+                    units:20,
+                    price:20.5,
+                    total:20
+                  },
+                  trans:{
+                    name:"transistor",
+                    units:30,
+                    price:30.5,
+                    total:30
+                  },
+                },
+                notify:true
+              },
+
+              boughtItem:{
+                type:Object,
+                value:{},
+                notify:true
+              }
+
+            }
+          }
+
+          add2cart(event){
+            console.log("Se llama add2cart")
+            let id =event.target.id;
+            if(this.products[id].units>0){
+              this.set(`products.${id}.units`,this.products[id].units-1);
+              this.set("boughtItem",this.products[id]);
+              console.log(this.boughtItem);
+              this.set("boughtItem",{});
+            }
+          }
+
+          removeFromCart(event){
+            let id =event.target.id;
+            if(this.products[id].units<this.products[id].total){
+              this.set(`products.${id}.units`,this.products[id].units+1);
+              this.set("boughtItem",this.products[id]);
+              this.set("boughtItem",{});
+            }
+          }
+
+
+
+        }
+
+        customElements.define(ProductComponent.is,ProductComponent);
+      </script>
+    </dom-module>
+
+
+
+
+  </body>
+</html>
+
