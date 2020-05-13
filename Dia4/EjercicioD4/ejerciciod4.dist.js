@@ -3,7 +3,7 @@
 
 class People{
   constructor(){
-    this.path =  "https://swapi.co/api/people/";
+    this.path =  "https://swapi.dev/api/people/";
   }
 
   async getPeople(){
